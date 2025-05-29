@@ -1,5 +1,5 @@
 #ifndef EASYFIND_HPP
-#define EASYFIND_HPP
+# define EASYFIND_HPP
 
 # define BRIGHT_RED "\033[1;31m"
 # define BRIGHT_BLUE "\033[1;34m"
@@ -14,11 +14,22 @@
 #include <list>
 #include <map>
 
+// template<typename T>
+// typename T::value_type	easyfind(const T &src, const typename T::value_type &n)
+// {
+// 	typename	T::const_iterator	i;
+
+// 	i = std::find(src.begin(), src.end(), n);
+// 	if (i == src.end())
+// 		throw (std::runtime_error(BRIGHT_RED "easyfind: Couldn't find the value." RESET));
+// 	return (*i);
+// }
+
 template<typename T>
-typename T::value_type	easyfind(const T &src, int n)
+typename T::value_type	easyfind(const T &src, const int &n)
 {
 	typename	T::const_iterator	i;
-	
+
 	i = std::find(src.begin(), src.end(), n);
 	if (i == src.end())
 		throw (std::runtime_error(BRIGHT_RED "easyfind: Couldn't find the value." RESET));
@@ -34,10 +45,19 @@ void	initConteiner(T &src, int a, int b, int c)
 }
 
 template<typename T>
-void	test(const std::string &name, const T &conteiner, const int &n)
+void	test(const std::string &name, const T &conteiner, const typename T::value_type &n)
 {
 	std::cout << ORANGE << name << RESET " is looking for:\t\t" ORANGE << n << RESET << std::endl;
 	std::cout << ORANGE << name << RESET " found:\t\t\t" ORANGE << easyfind(conteiner, n) << RESET << std::endl;
+}
+
+template<typename T>
+void	drawConteiner(const std::string &name, const T &c)
+{
+	int	j = 0;
+
+	for (typename T::const_iterator i = c.begin(); i != c.end(); i++)
+		std::cout << ORANGE << name << RESET "[" << j++ << "]: " ORANGE << *i << RESET << std::endl;
 }
 
 #endif

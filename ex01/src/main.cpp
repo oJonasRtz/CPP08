@@ -188,17 +188,42 @@ static void	subjectTest(void)
 	std::cout << sp.longestSpan() << std::endl;
 }
 
+static void	rangeTest(void)
+{
+	drawTitle("addRange()", 1);
+
+	//Setup
+	std::vector<int>	v;
+	for (int i = 0; i < 10; i++)
+		v.push_back(rand() / 100000);
+	
+	Span	a(10);
+	drawTitle("Before", 0);
+	std::cout << "a: " ORANGE << a << RESET << std::endl;
+	a.showContent();
+
+	a.addRange(v.begin(), v.end());
+
+	drawTitle("After", 0);
+	std::cout << "a: " ORANGE << a << RESET << std::endl;
+	a.showContent();
+
+	drawTitle("Destructor", 0);
+}
+
 int	main(int argc, char **argv)
 {
 	if (argc != 2)
 		return (howToUse());
 
+	srand(time(NULL));
 	//Setup
 	std::map<std::string, void(*)(void)>	map;
 	map["1"] = &canonicalTest;
 	map["3"] = &shortLongTest;
 	map["2"] = &addTests;
 	map["4"] = &subjectTest;
+	map["5"] = &rangeTest;
 
 	//	Input check
 	if (map.find(argv[1]) == map.end())

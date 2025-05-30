@@ -1,5 +1,5 @@
 NAME=span
-TESTS = 4
+TESTS = 5
 
 CC = c++
 FLAGS = -g3 -Wall -Werror -Wextra -std=c++98

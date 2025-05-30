@@ -13,6 +13,8 @@
 #include <algorithm>
 #include <iterator>
 #include <map>
+#include <cstdlib>
+#include <ctime>
 
 class Span
 {

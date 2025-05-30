@@ -10,6 +10,8 @@
 
 #include <iostream>
 #include <vector>
+#include <algorithm>
+#include <iterator>
 #include <map>
 
 class Span
@@ -17,7 +19,9 @@ class Span
 	private:
 		unsigned int		n;
 		unsigned int		numInStorage;
-		std::vector<int>	storage;	
+		std::vector<int>	storage;
+	
+		void				timeToThrow(const std::string &message) const;
 	public:
 		Span(void);
 		Span(const unsigned int &n);
@@ -27,9 +31,20 @@ class Span
 		~Span(void);
 
 		//	Methods
-		void	addNumber(const int &value);
-		int		shortestSpan(void) const;
-		int		longestSpan(void) const;
+		void				addNumber(const int &value);
+		unsigned int		shortestSpan(void) const;
+		unsigned int		longestSpan(void) const;
+		template<typename T>
+		void				addRange(T start, T end)
+		{
+			unsigned int	range = std::distance(start, end);
+
+			if (range > n - numInStorage)
+				timeToThrow("Span: cannot add range - not enough space.");
+			
+			storage.insert(storage.end(), start, end);
+			numInStorage += range;
+		}
 
 		//	Getters
 		unsigned int			size(void) const;

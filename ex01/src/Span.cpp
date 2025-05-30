@@ -1,6 +1,6 @@
 #include "Span.hpp"
 
-static void	timeToThrow(const std::string &message)
+void	Span::timeToThrow(const std::string &message) const
 {
 	throw (std::runtime_error(BRIGHT_RED + message + RESET));
 }
@@ -67,31 +67,37 @@ void	Span::addNumber(const int &value)
 {
 	if (numInStorage == n)
 		timeToThrow("Span: cannot add number - storage is full.");
+
 	storage.push_back(value);
 	numInStorage++;
 }
-int		Span::shortestSpan(void) const
+unsigned int		Span::shortestSpan(void) const
 {
 	if (numInStorage == 0 || numInStorage == 1)
-		timeToThrow("Span: cannot search - storage has no data enough");
+		timeToThrow("Span: cannot search - not enough data in storage");
 
-	int	s = storage[0];
-	for (unsigned int i = 1; i < n; i++)
-		if (storage[i] < s)
-			s = storage[i];
-	
-	return (s);
+	std::vector<int> temp = storage;
+	std::sort(temp.begin(), temp.end());
+
+	unsigned int	diff = temp[1] - temp[0];
+	for (unsigned int i = 2; i < numInStorage; i++)
+	{
+		unsigned int tempDiff = temp[i] - temp[i - 1];
+		if (tempDiff < diff)
+			diff = tempDiff;
+	}
+
+	return (diff);
 }
-int		Span::longestSpan(void) const
+unsigned int		Span::longestSpan(void) const
 {
 	if (numInStorage == 0 || numInStorage == 1)
 		timeToThrow("Span: cannot search - storage has no data enough");
 
-	int	s = storage[0];
-	for (unsigned int i = 1; i < n; i++)
-		if (storage[i] < s)
-			s = storage[i];
-	return (s);
+	std::vector<int> temp = storage;
+	std::sort(temp.begin(), temp.end());
+
+	return (temp.back() - temp.front());
 }
 
 void					Span::showContent(void) const
@@ -102,6 +108,6 @@ void					Span::showContent(void) const
 		return;
 	}
 	
-	for (unsigned int i = 0; i < n; i++)
+	for (unsigned int i = 0; i < numInStorage; i++)
 		std::cout << "Span[" << i << "]: " ORANGE << storage[i] << RESET << std::endl;
 }

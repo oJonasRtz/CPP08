@@ -21,6 +21,63 @@ static int	howToUse(void)
 	return (0);
 }
 
+static void	shortLongTest(void)
+{
+	Span	a(10);
+
+	try{
+
+		/*
+			* These are error-handling tests *
+		*/
+		// std::cout << "Largest: " << a.longestSpan() << std::endl;
+		std::cout << "Shortest: " << a.shortestSpan() << std::endl;
+	}catch(const std::exception &e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
+}
+
+static void	addTests(void)
+{
+	drawTitle("AddNumber()", 1);
+	Span	a(10);
+
+	drawTitle("Before", 0);
+	std::cout << "a: " ORANGE << a << RESET << std::endl;
+	a.showContent();
+	try{
+		a.addNumber(15);
+		a.addNumber(4);
+		a.addNumber(27);
+		a.addNumber(95);
+		a.addNumber(15);
+		a = 5;
+		a = 45;
+		a = 87;
+		a = 42;
+		a = 0;
+
+		/*
+			Error-handling test
+				* This should trigger an exception
+					trying to add an eleventh member in Span(10);
+		*/
+		a.addNumber(1);
+	}catch (const std::exception &e){
+		std::cerr << e.what() << std::endl;
+	}
+	drawTitle("After", 0);
+	std::cout << "a: " ORANGE << a << RESET << std::endl;
+	a.showContent();
+
+	//	Copy test
+	drawTitle("Copy test", 0);
+	Span	b = a;
+	std::cout << "b: " << ORANGE << b << RESET << std::endl;
+	b.showContent();
+}
+
 int	main(int argc, char **argv)
 {
 	if (argc != 2)
@@ -29,14 +86,16 @@ int	main(int argc, char **argv)
 	//Setup
 	std::map<std::string, void(*)(void)>	map;
 	map["1"] = &canonicalTest;
+	map["3"] = &shortLongTest;
+	map["2"] = &addTests;
 
 	//	Input check
-	std::map<std::string, void (*)(void)>::iterator	temp = map.find(argv[1]);
-	if (temp == map.end())
+	if (map.find(argv[1]) == map.end())
 		return (howToUse());
 	
 	//	Execute test
 	drawTitle("Span", 1);
-	temp->second();
+	map[argv[1]]();
+
 	return (0);
 }

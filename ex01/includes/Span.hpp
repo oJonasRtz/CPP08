@@ -16,12 +16,14 @@ class Span
 {
 	private:
 		unsigned int		n;
+		unsigned int		numInStorage;
 		std::vector<int>	storage;	
 	public:
 		Span(void);
 		Span(const unsigned int &n);
 		Span(const Span &other);
 		Span	&operator=(const Span &other);
+		Span	&operator=(const int &n);
 		~Span(void);
 
 		//	Methods
@@ -32,6 +34,8 @@ class Span
 		//	Getters
 		unsigned int			size(void) const;
 		const std::vector<int>	&getStorage(void) const;
+		int						getNumsStorage(void) const;
+		void					showContent(void) const;
 };
 
 std::ostream	&operator<<(std::ostream &out, const Span &other);

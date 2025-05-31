@@ -29,6 +29,9 @@ test: run
 		valgrind ./$(NAME) $$i; \
 	done
 
+final:
+	@valgrind ./$(NAME) 6
+
 clean:
 	@echo "\033[1;32m===========================================\033[0m"
 	@echo "\033[1;32m		OBJECTS REMOVED						\033[0m"

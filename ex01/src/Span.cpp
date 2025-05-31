@@ -92,7 +92,7 @@ unsigned int		Span::shortestSpan(void) const
 unsigned int		Span::longestSpan(void) const
 {
 	if (numInStorage == 0 || numInStorage == 1)
-		timeToThrow("Span: cannot search - storage has no data enough");
+		timeToThrow("Span: cannot search - not enough data in storage");
 
 	std::vector<int> temp = storage;
 	std::sort(temp.begin(), temp.end());

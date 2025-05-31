@@ -17,10 +17,10 @@ static void	canonicalTest(void)
 
 static std::vector<int>	getVector(const unsigned int &n)
 {
-	std::vector<int>	v(n);
+	std::vector<int>	v;
 
 	for (unsigned int i = 0; i < n; i++)
-		v[i] = i;
+		v.push_back(rand() / 10000);
 	
 	return (v);
 }
@@ -147,7 +147,7 @@ static void	addTests(void)
 		a.addNumber(4);
 		a.addNumber(27);
 		a.addNumber(95);
-		a.addNumber(15);
+		a = 15;
 		a.addRange(v.begin(), v.end());
 		// fillSpan(a, 5);
 
@@ -193,16 +193,22 @@ static void	rangeTest(void)
 	drawTitle("addRange()", 1);
 
 	//Setup
-	std::vector<int>	v;
-	for (int i = 0; i < 10; i++)
-		v.push_back(rand() / 100000);
+	std::vector<int>	v = getVector(10);
 	
 	Span	a(10);
 	drawTitle("Before", 0);
 	std::cout << "a: " ORANGE << a << RESET << std::endl;
 	a.showContent();
 
-	a.addRange(v.begin(), v.end());
+	try
+	{
+		a.addRange(v.begin(), v.end());
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+	}
+
 
 	drawTitle("After", 0);
 	std::cout << "a: " ORANGE << a << RESET << std::endl;
@@ -211,12 +217,40 @@ static void	rangeTest(void)
 	drawTitle("Destructor", 0);
 }
 
+static void	tenThousandMiles(void)
+{
+	drawTitle("10k numbers", 1);
+
+	std::vector<int>	v = getVector(10000);
+	Span				a(10000);
+
+	drawTitle("Inicial stats", 0);
+	std::cout << "a: " ORANGE << a << RESET << std::endl;
+	a.showContent();
+
+	try
+	{
+		a.addRange(v.begin(), v.end());
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+	}
+	
+	drawTitle("Final stats", 0);
+	std::cout << "a: " ORANGE << a << RESET << std::endl;
+	a.showContent();
+
+	drawTitle("Destructors", 0);
+}
+
 int	main(int argc, char **argv)
 {
 	if (argc != 2)
 		return (howToUse());
 
 	srand(time(NULL));
+
 	//Setup
 	std::map<std::string, void(*)(void)>	map;
 	map["1"] = &canonicalTest;
@@ -224,6 +258,7 @@ int	main(int argc, char **argv)
 	map["2"] = &addTests;
 	map["4"] = &subjectTest;
 	map["5"] = &rangeTest;
+	map["6"] = &tenThousandMiles;
 
 	//	Input check
 	if (map.find(argv[1]) == map.end())
